@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from pytest_fileexpect import ContentNotFoundException
+from pytest_fileexpect import ContentNotFoundException, detectUpdateInstruction
 
 
 
@@ -10,20 +10,33 @@ FILENAME_FORMAT = "{}.{}"
 
 
 class FileBasedComparer(ABC):
-    def __init__(self, contentRoot: Path, fileExtension: str):
+    def __init__(self, contentRoot: Path, fileExtension: str, updateFiles: bool = None):
+        self.updatedFiles = []
+
         self.fileExtension = fileExtension
         self.contentRoot = contentRoot
+
+        if updateFiles is None:
+            updateFiles = detectUpdateInstruction()
+
+        self.updateFiles = updateFiles
 
 
     def difference(self, contentName, actual):
         path = self.getPathForContent(contentName)
 
-        if not (path.exists() and path.is_file()):
-            raise ContentNotFoundException(path)
+        if self.updateFiles:
+            self.writeContent(path, actual)
+            self.updatedFiles.append(path)
 
-        expected = self.expected(path)
+            return None
+        else:
+            if not (path.exists() and path.is_file()):
+                raise ContentNotFoundException(path)
 
-        return self.describeDifference(expected, actual)
+            expected = self.expected(path)
+
+            return self.describeDifference(expected, actual)
 
 
     def getPathForContent(self, contentName):
@@ -39,6 +52,11 @@ class FileBasedComparer(ABC):
 
     @abstractmethod
     def readContent(self, path):
+        pass  # pragma: no cover
+
+
+    @abstractmethod
+    def writeContent(self, path, content):
         pass  # pragma: no cover
 
 
