@@ -1,5 +1,8 @@
 [run]
 branch = True
+source =
+    pytest_fileexpect/
+
 
 [report]
 # Regexes for lines to exclude from consideration
