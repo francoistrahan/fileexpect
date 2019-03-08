@@ -20,6 +20,7 @@ class FileBasedComparer(ABC):
             updateFiles = detectUpdateInstruction()
 
         self.updateFiles = updateFiles
+        self.transforms = []
 
 
     def difference(self, contentName, actual):
@@ -36,6 +37,10 @@ class FileBasedComparer(ABC):
 
             expected = self.expected(path)
 
+            for t in self.transforms:
+                expected = t(expected)
+                actual = t(actual)
+
             return self.describeDifference(expected, actual)
 
 
@@ -48,6 +53,10 @@ class FileBasedComparer(ABC):
 
     def expected(self, path):
         return self.readContent(path)
+
+
+    def addTransform(self, transform):
+        self.transforms.append(transform)
 
 
     @abstractmethod

@@ -1,5 +1,7 @@
 from difflib import unified_diff
+from functools import partial
 from pathlib import Path
+import re
 
 from .FileBasedComparer import FileBasedComparer
 
@@ -26,4 +28,10 @@ class TextComparer(FileBasedComparer):
         if expected == actual:
             return None
         else:
-            return "\n".join(unified_diff([expected], [actual], "EXPECTED", "ACTUAL"))
+            return "\n".join(unified_diff(expected.splitlines(), actual.splitlines(), "EXPECTED", "ACTUAL"))
+
+
+    def addRegexReplace(self, regex, replacement="[REMOVED]"):
+        regex = re.compile(regex)
+        transform = partial(regex.sub, replacement)
+        self.addTransform(transform)
