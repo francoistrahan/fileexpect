@@ -1,5 +1,3 @@
-import re
-
 from pytest import fixture, raises
 
 from pytest_fileexpect import ContentNotFoundException
@@ -24,3 +22,8 @@ def test_fail_on_missing(tc):
         tc.difference("missing_content", None)
 
     assert ex.match(r"Expected content file not found: .*data/missing_content\.txt")
+
+
+
+def test_returnNoneOnMatch(tc):
+    assert tc.difference("hello_world", "Hello World !!!") is None

@@ -26,7 +26,7 @@ class FileBasedComparer(ABC):
 
         expected = self.expected(path)
 
-        return self.areEqual(expected, actual)
+        return self.describeDifference(expected, actual)
 
 
     def expected(self, path):

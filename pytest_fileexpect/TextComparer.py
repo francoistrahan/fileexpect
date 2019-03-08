@@ -9,9 +9,11 @@ class TextComparer(FileBasedComparer):
         super().__init__(contentRoot, fileExtension)
 
 
-    def readContent(self, path):
-        raise NotImplemented()
+    def readContent(self, path: Path):
+        return path.read_text()
 
 
     def describeDifference(self, expected, actual):
+        if expected == actual: return None
+
         raise NotImplemented()
