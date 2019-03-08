@@ -1,7 +1,7 @@
 [run]
 branch = True
 source =
-    pytest_fileexpect/
+    fileexpect/
 
 
 [report]

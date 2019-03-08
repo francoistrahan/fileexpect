@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/pytest-fileexpect.git.iml" filepath="$PROJECT_DIR$/.idea/pytest-fileexpect.git.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fileexpect.iml" filepath="$PROJECT_DIR$/.idea/fileexpect.iml" />
     </modules>
   </component>
 </project>

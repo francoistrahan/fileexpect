@@ -2,9 +2,9 @@ from pathlib import Path
 
 from pytest import fixture, raises
 
-from pytest_fileexpect import ContentNotFoundException, detectUpdateInstruction, ENVIRONMENT_UPDATE_KEY, ENVIRONMENT_UPDATE_POSITIVE_WORDS
-from pytest_fileexpect.FileBasedComparer import FILENAME_FORMAT
-from pytest_fileexpect.TextComparer import DEFAULT_TXT_EXTENSION, TextComparer
+from fileexpect import ContentNotFoundException, detectUpdateInstruction, ENVIRONMENT_UPDATE_KEY, ENVIRONMENT_UPDATE_POSITIVE_WORDS
+from fileexpect.FileBasedComparer import FILENAME_FORMAT
+from fileexpect.TextComparer import DEFAULT_TXT_EXTENSION, TextComparer
 
 
 
@@ -46,7 +46,7 @@ def test_detectUpdateInstruction_EnvUpdate(env_update):
 
 
 def test_ctor():
-    tc = TextComparer(Path("root/does/not/exist"))
+    tc = TextComparer("root/does/not/exist")
 
     assert tc.contentRoot.match("root/does/not/exist")
     assert "txt" == tc.fileExtension
@@ -58,7 +58,7 @@ def test_ctor():
 
 
 def test_ctor_noExtension():
-    tc = TextComparer(Path("root/does/not/exist"), None)
+    tc = TextComparer("root/does/not/exist", None)
 
     assert tc.fileExtension is None
     assert tc.getPathForContent("ze content").match(r"root/does/not/exist/ze content")
