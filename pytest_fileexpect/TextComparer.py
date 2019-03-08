@@ -1,3 +1,4 @@
+from difflib import unified_diff
 from pathlib import Path
 
 from .FileBasedComparer import FileBasedComparer
@@ -14,6 +15,7 @@ class TextComparer(FileBasedComparer):
 
 
     def describeDifference(self, expected, actual):
-        if expected == actual: return None
-
-        raise NotImplemented()
+        if expected == actual:
+            return None
+        else:
+            return "\n".join(unified_diff([expected], [actual], "EXPECTED", "ACTUAL"))

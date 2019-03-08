@@ -27,3 +27,19 @@ def test_fail_on_missing(tc):
 
 def test_returnNoneOnMatch(tc):
     assert tc.difference("hello_world", "Hello World !!!") is None
+
+
+
+def test_describeTextMismatch(tc):
+    EXPECTED = ("--- EXPECTED\n"
+                "\n"
+                "+++ ACTUAL\n"
+                "\n"
+                "@@ -1 +1 @@\n"
+                "\n"
+                "-Hello World !!!\n"
+                "+Bonjour le monde !!!")
+
+    diff = tc.difference("hello_world", "Bonjour le monde !!!")
+    print(diff)
+    assert EXPECTED == diff
