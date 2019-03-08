@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from pytest_fileexpect import ContentNotFoundException, detectUpdateInstruction
+from . import ContentNotFoundException, detectUpdateInstruction
 
 
 
