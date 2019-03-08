@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pytest import fixture, raises
 
 from pytest_fileexpect import ContentNotFoundException
@@ -11,9 +13,21 @@ def tc(shared_datadir):
 
 
 
-def test_ctor(tc):
-    assert tc.contentRoot.match("*/data")
+def test_ctor():
+    tc = TextComparer(Path("root/does/not/exist"))
+
+    assert tc.contentRoot.match("root/does/not/exist")
     assert "txt" == tc.fileExtension
+    assert tc.getPathForContent("ze content").match("root/does/not/exist/ze content.txt")
+
+
+
+def test_ctor_noextension():
+    tc = TextComparer(Path("root/does/not/exist"), None)
+    
+    assert tc.contentRoot.match("root/does/not/exist")
+    assert tc.fileExtension is None
+    assert tc.getPathForContent("ze content").match(r"root/does/not/exist/ze content")
 
 
 

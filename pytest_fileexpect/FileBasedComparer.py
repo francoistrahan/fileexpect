@@ -16,10 +16,7 @@ class FileBasedComparer(ABC):
 
 
     def difference(self, contentName, actual):
-        if self.fileExtension:
-            contentName = FILENAME_FORMAT.format(contentName, self.fileExtension)
-
-        path = self.contentRoot / contentName
+        path = self.getPathForContent(contentName)
 
         if not (path.exists() and path.is_file()):
             raise ContentNotFoundException(path)
@@ -27,6 +24,13 @@ class FileBasedComparer(ABC):
         expected = self.expected(path)
 
         return self.describeDifference(expected, actual)
+
+
+    def getPathForContent(self, contentName):
+        if self.fileExtension:
+            contentName = FILENAME_FORMAT.format(contentName, self.fileExtension)
+        path = self.contentRoot / contentName
+        return path
 
 
     def expected(self, path):
