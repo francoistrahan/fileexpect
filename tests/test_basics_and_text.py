@@ -18,7 +18,9 @@ SAMPLE_THREE_LINE_CONTENT = "Here is a nice\n" \
 
 @fixture
 def tc(shared_datadir):
-    return TextComparer(shared_datadir)
+    rv = TextComparer(shared_datadir)
+    yield rv
+    # You would probably want to assert not rv.updatedFiles
 
 
 
@@ -45,13 +47,13 @@ def test_ctor():
     assert "txt" == tc.fileExtension
     assert tc.getPathForContent("ze content").match("root/does/not/exist/ze content.txt")
     assert tc.updateFiles == False
+    assert tc.updatedFiles == []
 
 
 
 def test_ctor_noExtension():
     tc = TextComparer(Path("root/does/not/exist"), None)
 
-    assert tc.contentRoot.match("root/does/not/exist")
     assert tc.fileExtension is None
     assert tc.getPathForContent("ze content").match(r"root/does/not/exist/ze content")
 
@@ -69,11 +71,13 @@ def test_fail_on_missing(tc):
         tc.difference("missing_content", None)
 
     assert ex.match(r"Expected content file not found: .*data/missing_content\.txt")
+    assert tc.updatedFiles == []
 
 
 
 def test_returnNoneOnMatch(tc):
     assert tc.difference(HELLO_WORLD_CONTENT_NAME, "Hello World !!!") is None
+    assert tc.updatedFiles == []
 
 
 
@@ -90,6 +94,7 @@ def test_describeTextMismatch(tc):
     diff = tc.difference("hello_world", "Bonjour le monde !!!")
     print(diff)
     assert EXPECTED == diff
+    assert tc.updatedFiles == []
 
 
 
@@ -106,6 +111,7 @@ def test_updateMissing(env_update, tc):
     assert contentPath.exists() and contentPath.is_file()
 
     assert CONTENT == contentPath.read_text()
+    assert tc.updatedFiles == [contentPath]
 
 
 
@@ -123,3 +129,4 @@ def test_updateExisting(env_update, tc):
     assert contentPath.exists() and contentPath.is_file()
 
     assert content == contentPath.read_text()
+    assert tc.updatedFiles == [contentPath]

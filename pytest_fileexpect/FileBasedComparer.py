@@ -11,6 +11,8 @@ FILENAME_FORMAT = "{}.{}"
 
 class FileBasedComparer(ABC):
     def __init__(self, contentRoot: Path, fileExtension: str, updateFiles: bool = None):
+        self.updatedFiles = []
+
         self.fileExtension = fileExtension
         self.contentRoot = contentRoot
 
@@ -25,6 +27,8 @@ class FileBasedComparer(ABC):
 
         if self.updateFiles:
             self.writeContent(path, actual)
+            self.updatedFiles.append(path)
+
             return None
         else:
             if not (path.exists() and path.is_file()):
