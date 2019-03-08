@@ -13,16 +13,17 @@ class FileBasedComparer(ABC):
         self.contentRoot = contentRoot
 
 
-    def matches(self, contentName, actual):
+    def differences(self, contentName, actual):
         if self.fileExtension:
             contentName = FILENAME_FORMAT.format(contentName, self.fileExtension)
+
         path = self.contentRoot / contentName
 
         assert path.exists() and path.is_file()
 
         expected = self.readContent(path)
 
-        assert self.areEqual(expected, actual)
+        return self.areEqual(expected, actual)
 
 
     def readContent(self, path): pass
