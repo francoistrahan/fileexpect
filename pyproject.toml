@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-fileexpect"
-version = "0.0.0"
+version = "1.0.0"
 description = "Tool to compare test results against file content"
 authors = ["François Trahan <francois.trahan@gmail.com>"]
 license = "GPL-3.0"
