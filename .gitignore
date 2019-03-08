@@ -1,0 +1,21 @@
+# PyCharm stuff
+/.idea/workspace.xml
+
+
+
+# Python cache
+__pycache__
+*.pyc
+
+
+
+# build files
+/build
+/dist
+/pip-wheel-metadata
+/*.egg-info
+
+
+
+# Temp files
+.#*
