@@ -24,7 +24,7 @@ def test_ctor():
 
 def test_ctor_noextension():
     tc = TextComparer(Path("root/does/not/exist"), None)
-    
+
     assert tc.contentRoot.match("root/does/not/exist")
     assert tc.fileExtension is None
     assert tc.getPathForContent("ze content").match(r"root/does/not/exist/ze content")
