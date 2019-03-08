@@ -1,6 +1,6 @@
-# PyCharm stuff
+# Dev tools
 /.idea/workspace.xml
-
+/.coverage
 
 
 # Python cache
