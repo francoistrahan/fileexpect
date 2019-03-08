@@ -28,7 +28,7 @@ class TextComparer(FileBasedComparer):
         if expected == actual:
             return None
         else:
-            return "\n".join(unified_diff([expected], [actual], "EXPECTED", "ACTUAL"))
+            return "\n".join(unified_diff(expected.splitlines(), actual.splitlines(), "EXPECTED", "ACTUAL"))
 
 
     def addRegexReplace(self, regex, replacement="[REMOVED]"):
