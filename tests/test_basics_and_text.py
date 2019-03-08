@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pytest import fixture, raises
 
-from pytest_fileexpect import ContentNotFoundException
+from pytest_fileexpect import ContentNotFoundException, detectUpdateInstruction, ENVIRONMENT_UPDATE_KEY, ENVIRONMENT_UPDATE_POSITIVE_WORDS
 from pytest_fileexpect.TextComparer import TextComparer
 
 
@@ -10,6 +10,22 @@ from pytest_fileexpect.TextComparer import TextComparer
 @fixture
 def tc(shared_datadir):
     return TextComparer(shared_datadir)
+
+
+
+@fixture
+def env_update(monkeypatch):
+    return monkeypatch.setenv(ENVIRONMENT_UPDATE_KEY, ENVIRONMENT_UPDATE_POSITIVE_WORDS[0])
+
+
+
+def test_detectUpdateInstruction_noUpdate():
+    assert not detectUpdateInstruction()
+
+
+
+def test_detectUpdateInstruction_EnvUpdate(env_update):
+    assert detectUpdateInstruction()
 
 
 
