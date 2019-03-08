@@ -1,6 +1,7 @@
 # Dev tools
 /.idea/workspace.xml
 /.coverage
+/htmlcov
 
 
 # Python cache
