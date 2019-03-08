@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "pytest-fileexpect"
+name = "fileexpect"
 version = "1.0.0"
 description = "Tool to compare test results against file content"
 authors = ["François Trahan <francois.trahan@gmail.com>"]
 license = "GPL-3.0"
 
-homepage = "https://github.com/francoistrahan/pytest-fileexpect"
-repository = "https://github.com/francoistrahan/pytest-fileexpect.git"
+homepage = "https://github.com/francoistrahan/fileexpect"
+repository = "https://github.com/francoistrahan/fileexpect.git"
 
 [tool.poetry.dependencies]
 python = "^3.6"
