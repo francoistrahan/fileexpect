@@ -34,8 +34,10 @@ class FileBasedComparer(ABC):
 
 
     @abstractmethod
-    def readContent(self, path): pass
+    def readContent(self, path):
+        pass  # pragma: no cover
 
 
     @abstractmethod
-    def describeDifference(self, expected, actual): pass
+    def describeDifference(self, expected, actual):
+        pass  # pragma: no cover
