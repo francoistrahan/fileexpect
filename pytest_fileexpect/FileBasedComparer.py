@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 
+from pytest_fileexpect import ContentNotFoundException
+
 
 
 FILENAME_FORMAT = "{}.{}"
@@ -19,7 +21,8 @@ class FileBasedComparer(ABC):
 
         path = self.contentRoot / contentName
 
-        assert path.exists() and path.is_file()
+        if not (path.exists() and path.is_file()):
+            raise ContentNotFoundException(path)
 
         expected = self.expected(path)
 
