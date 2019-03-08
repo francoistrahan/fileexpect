@@ -33,5 +33,5 @@ class TextComparer(FileBasedComparer):
 
     def addRegexReplace(self, regex, replacement="[REMOVED]"):
         regex = re.compile(regex)
-        transform = partial(regex.sub, repl=replacement)
+        transform = partial(regex.sub, replacement)
         self.addTransform(transform)
