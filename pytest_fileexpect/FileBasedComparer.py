@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from pathlib import Path
 
 
@@ -13,7 +13,7 @@ class FileBasedComparer(ABC):
         self.contentRoot = contentRoot
 
 
-    def differences(self, contentName, actual):
+    def difference(self, contentName, actual):
         if self.fileExtension:
             contentName = FILENAME_FORMAT.format(contentName, self.fileExtension)
 
@@ -21,12 +21,18 @@ class FileBasedComparer(ABC):
 
         assert path.exists() and path.is_file()
 
-        expected = self.readContent(path)
+        expected = self.expected(path)
 
         return self.areEqual(expected, actual)
 
 
+    def expected(self, path):
+        return self.readContent(path)
+
+
+    @abstractmethod
     def readContent(self, path): pass
 
 
-    def areEqual(self, expected, actual): pass
+    @abstractmethod
+    def describeDifference(self, expected, actual): pass
