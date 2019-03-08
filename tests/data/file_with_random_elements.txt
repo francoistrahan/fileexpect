@@ -1,0 +1,12 @@
+This is a simple document that contains a few pieces of random data. Because of
+this, it is not possible to test with exact string matching.
+
+The transform will be used to take the randomness out of both the original and
+expected document.
+
+This line won't clash: id=12345
+This line won't either: class="23456"
+This one will, but not on the id: id=34567, CHANGE_ME
+This one will, but not on the class: class="45678", CHANGE_ME
+
+Voilà !

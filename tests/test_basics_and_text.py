@@ -14,11 +14,16 @@ SAMPLE_THREE_LINE_CONTENT = "Here is a nice\n" \
                             "three line\n" \
                             "file with a trailing return\n"
 
+REGEX_REMOVE_IDS = """id=[0-9]{5}"""
+REGEX_REMOVE_CLASSES = '''class="[0-9]{5}"'''
+
 
 
 @fixture
 def tc(shared_datadir):
     rv = TextComparer(shared_datadir)
+    rv.addRegexReplace(REGEX_REMOVE_IDS, "id=[REMOVED_ID]")
+    rv.addRegexReplace(REGEX_REMOVE_CLASSES, "id=[REMOVED_CLASS]")
     yield rv
     # You would probably want to assert not rv.updatedFiles
 
@@ -48,6 +53,7 @@ def test_ctor():
     assert tc.getPathForContent("ze content").match("root/does/not/exist/ze content.txt")
     assert tc.updateFiles == False
     assert tc.updatedFiles == []
+    assert tc.transforms == []
 
 
 
@@ -130,3 +136,41 @@ def test_updateExisting(env_update, tc):
 
     assert content == contentPath.read_text()
     assert tc.updatedFiles == [contentPath]
+
+
+
+def test_regex_transform(tc):
+    NAME = "file_with_random_elements"
+    CONTENT = ("This is a simple document that contains a few pieces of random data. Because of\n"
+               "this, it is not possible to test with exact string matching.\n"
+               "\n"
+               "The transform will be used to take the randomness out of both the original and\n"
+               "expected document.\n"
+               "\n"
+               "This line won't clash: id=54321\n"
+               "This line won't either: class=\"65432\"\n"
+               "This one will, but not on the id: id=76543, CHANGED\n"
+               "This one will, but not on the class: class=\"87654\", CHANGED\n"
+               "\n"
+               "Voilà !\n")
+
+    EXPECTED_DIFF = ("--- EXPECTED\n"
+                     "\n"
+                     "+++ ACTUAL\n"
+                     "\n"
+                     "@@ -6,7 +6,7 @@\n"
+                     "\n"
+                     " \n"
+                     " This line won't clash: id=[REMOVED_ID]\n"
+                     " This line won't either: id=[REMOVED_CLASS]\n"
+                     "-This one will, but not on the id: id=[REMOVED_ID], CHANGE_ME\n"
+                     "-This one will, but not on the class: id=[REMOVED_CLASS], CHANGE_ME\n"
+                     "+This one will, but not on the id: id=[REMOVED_ID], CHANGED\n"
+                     "+This one will, but not on the class: id=[REMOVED_CLASS], CHANGED\n"
+                     " \n"
+                     " Voilà !")
+
+    diff = tc.difference(NAME, CONTENT)
+    print(diff)
+
+    assert EXPECTED_DIFF == diff
