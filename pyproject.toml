@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "fileexpect"
+version = "1.0.0"
+description = "Tool to compare test results against file content"
+authors = ["François Trahan <francois.trahan@gmail.com>"]
+license = "GPL-3.0"
+
+homepage = "https://github.com/francoistrahan/fileexpect"
+repository = "https://github.com/francoistrahan/fileexpect.git"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.3"
+pytest-coverage = "^0.0.0"
+pytest-datadir = "^1.3"
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
